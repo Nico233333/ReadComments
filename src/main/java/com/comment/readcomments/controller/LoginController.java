@@ -5,12 +5,10 @@ import com.comment.readcomments.entity.UserEntity;
 import com.comment.readcomments.exception.ValidationErrorException;
 import com.comment.readcomments.form.LoginForm;
 import com.comment.readcomments.service.LoginService;
+import com.comment.readcomments.utils.Article;
 import com.comment.readcomments.validator.LoginFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +34,10 @@ public class LoginController {
                 return loginService.login(form.getName(),form.getPassword());
         }
 
+        @GetMapping("/test")
+        public List<Article> test(){
+                return ArticleReaderUtil.readTxtFile();
+        }
 
 
 
