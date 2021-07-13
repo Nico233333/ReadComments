@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class ArticleReaderUtil {
+
     /**
      * 功能：Java读取txt文件的内容
      * 步骤：1：先获得文件句柄
@@ -20,34 +21,29 @@ public class ArticleReaderUtil {
      * 备注：需要考虑的是异常情况
      */
     public static List<Article> readTxtFile(){
-        String filePath = "C:\\Users\\liuke\\Desktop\\致命武器.txt";
+        String filePath = "src/main/resources/static/九星毒奶.txt";
         List<Article> articles=new ArrayList<>();
         try {
-            String encoding="UTF-8";
+            String encoding = "UTF-8";
             File file=new File(filePath);
             StringBuilder builder=new StringBuilder();
             if(file.isFile() && file.exists()){ //判断文件是否存在
                 InputStreamReader read = new InputStreamReader(new FileInputStream(file),encoding);//考虑到编码格式
                 BufferedReader bufferedReader = new BufferedReader(read);
-                String lineTxt = null;
+                String lineTxt;
                 Pattern p = Pattern.compile("(^\\s*第)(.{1,9})[章节卷集部篇回](\\s{1})(.*)($\\s*)");
                 Article article=new Article();
                 int i=-1;
                 while((lineTxt = bufferedReader.readLine()) != null){
                     if (p.matcher(lineTxt).find()){
-                        if (i<0){
-                            article.setChapter(lineTxt);
-                            articles.add(article);
-                            i++;
-                        }
-                        else {
+                        if (i >= 0) {
                             articles.get(i).setSentence(builder.toString().split("。"));
-                            builder=new StringBuilder();
-                            article=new Article();
-                            article.setChapter(lineTxt);
-                            articles.add(article);
-                            i++;
+                            builder = new StringBuilder();
+                            article = new Article();
                         }
+                        article.setChapter(lineTxt);
+                        articles.add(article);
+                        i++;
                     }
                     else
                     {
@@ -55,7 +51,6 @@ public class ArticleReaderUtil {
                     }
                 }
                 articles.get(i).setSentence(builder.toString().split("。"));
-                read.close();
             }else{
                 System.out.println("找不到指定的文件");
             }

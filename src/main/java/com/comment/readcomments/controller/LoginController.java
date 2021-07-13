@@ -35,7 +35,7 @@ public class LoginController {
         }
 
         @GetMapping("/test")
-        public List<Article> test(){
+        public List<Article> test() throws Exception {
                 return ArticleReaderUtil.readTxtFile();
         }
 
